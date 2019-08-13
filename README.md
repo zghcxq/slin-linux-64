@@ -1,46 +1,31 @@
-
-
-
-https://github.com/zghcxq/linux-ssr-64.git
+#git clone https://github.com/zghcxq/slin-linux-64.git
 
 #进入 linux-ssr-64/
 
-cd linux-ssr-64/
+#cd linux-ssr-64/
 
+#安装混淆依赖
 
+#sudo apt-get install build-essential
 
+#wget https://download.libsodium.org/libsodium/releases/LATEST.tar.gz
 
+#tar zxf LATEST.tar.gz
 
-安装混淆依赖 
+#cd libsodium*
 
-sudo apt-get install build-essential
+#./configure
 
-wget https://download.libsodium.org/libsodium/releases/LATEST.tar.gz
+#sudo make && sudo make install
 
-tar zxf LATEST.tar.gz
+#sudo chmod 777 /etc/ld.so.conf.d/usr_local_lib.conf
 
-cd libsodium*
+#echo /usr/local/lib > /etc/ld.so.conf.d/usr_local_lib.conf
 
-./configure
-
-sudo make && sudo make install
-
-sudo chmod 777 /etc/ld.so.conf.d/usr_local_lib.conf
-
-echo /usr/local/lib > /etc/ld.so.conf.d/usr_local_lib.conf
-
-ldconfig
-
-
+#ldconfig
 
 #进行初始化
 
-python3 main.py -i
+#python3 main.py -i
 
-
-
-
-
-
-
-# linux-ssr-64
+# slin-linux-64

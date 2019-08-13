@@ -1,86 +1,61 @@
-import dealssrlink
 import os
-
 import sys
+import dealNode
+import list_node
+
 def help():
-		print ("SSR-script version 1.0.1  ( author:dawn)")
-		print("usage: python3 main.py -h  [help]")
-		print("usage: python3 main.py -S  [SSRNode]")
-		print("usage: python3 main.py -l  [list of ssrNode]")
-		print("usage: python3 main.py -r  [run]")
-		print("usage: python3 main.py -s  [stop]")
-		print("usage: python3 main.py- i  [install SSR]")
-
+		print ("sliny version 1.0.4  ( author:dawn)")
+		print("usage: python3 main.py -h  [help] /i [init] /-s [stop]")
+		print("usage: python3 main.py -N  [Node] <Node>")
+		print("usage: python3 main.py -l  [list of ssrNode] |-r [run] <list> /-s [stop]")
 def main():
-
-			
 	if len(sys.argv)==1:	
 		help()
-	
 	elif len(sys.argv)==2:
 		if sys.argv[1] == "-h":
 			help()
-		if sys.argv[1] == "-S":
-			s = input("please enter ssr node : ")
-			is_ss = s.find('ss://')
+		elif sys.argv[1] == "-l":
+			list_node.node_list()
+			
+		elif sys.argv[1] == "-i":
+			os.system("bash init.sh 1")
+		elif sys.argv[1] == "-s":
+			activev2ray = int(os.system("bash runandstop.sh tv"))
+			if activev2ray == 0:
+				os.system("bash runandstop.sh dv")
+			os.system("bash runandstop.sh ds")	
+	elif len(sys.argv)==3:
+		if sys.argv[1] == "-N":
+			s = sys.argv[2]
 			is_ssr = s.find('ssr://')
-			if is_ss != -1:
-				ss = s[is_ss:].strip()
-				dealssrlink.decode_ss(ss)
+			is_vmess = s.find('vmess://')
+			if is_vmess != -1:
+				vmess = s[is_vmess:].strip()
+				dealNode.decode_v2ray(vmess)
 			elif is_ssr != -1:
 				ssr = s[is_ssr:].strip()
 				
-				dealssrlink.decode_ssr(ssr)
+				dealNode.decode_ssr(ssr)
 			else:
-				print("ssr node is worse !!!")
+				print("Node is worse !!!")
+		elif sys.argv[2] == "-s":
+				activev2ray = int(os.system("bash runandstop.sh tv"))
+				if activev2ray == 0:
+					os.system("bash runandstop.sh dv")
+				os.system("bash runandstop.sh ds")
 
+	elif len(sys.argv)==4:
 		if sys.argv[1] == "-l":
-			employee_file = open("config/shadowsocks.json", "r") 
- 
-			for employee in employee_file.readlines():
-				spilted = employee.split('//')  
-			print ("-----------------------------")
-			print ("|     ssr node              |")
-			i=0
-			for ipaddresschoose in range(0,len(spilted)):
-				i = i+1
-				solverange = ipaddresschoose
-				ipaddress = spilted[solverange].split('server": \"')
-				ipaddress = ipaddress[1].split('",')
-				print ("-----------------------------")
-				print ("* "+str(i)+ ". "+ipaddress[0] + "        ")
-	
-			print ("-----------------------------")    
-			employee_file.close()
-			userchoosenode = employee.split('//')
-			while 1:
-				choosenodenum = int (input ("please enter a number to choice a ssr node :"))
-				testvalue = 0
-				
-				employee_filebychoice = open("/etc/shadowsocks.json", "w")
-				for ipaddresschoose in range(0,len(spilted)):
-					ipaddresschoose = ipaddresschoose + 1
-					if choosenodenum == ipaddresschoose:    
-						employee_filebychoice.write(userchoosenode[choosenodenum-1])
-						testvalue = 1;
-				if testvalue == 1 :
-					print("	choice success ")
-					break;
-				else :
-					print("	Invail value")
-			employee_filebychoice.close()
-
-
-	
-		if sys.argv[1] == "-r":
-			os.system("bash runandstop.sh 1")
- 
-		if sys.argv[1] == "-s":
-			os.system("bash runandstop.sh 2")
-		if sys.argv[1] == "-i":
-			os.system("bash init.sh")
-
-
+			if sys.argv[2] == "-r":
+				activev2ray = int(os.system("bash runandstop.sh tv"))
+				if activev2ray == 0:
+					os.system("bash runandstop.sh dv")
+				flag = list_node.choic_node(sys.argv[3])
+				if flag == "ssr":
+					os.system("bash runandstop.sh rs")
+				if flag == "v2ray":
+					os.system("bash runandstop.sh rv")
+			
 
 main()
 
